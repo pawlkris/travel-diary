@@ -1,7 +1,7 @@
 
 class Adapter {
-  static getTrips(){
-    fetch("http://localhost:3000/api/users/1")
+  static getTrips(user){
+    fetch(`http://localhost:3000/api/users/${user}`)
     .then(res => res.json())
     .then(json => this.createAndDisplayTrips(json))
   };
@@ -9,12 +9,25 @@ class Adapter {
   static createAndDisplayTrips(json){
     json.trips.forEach(t => new Trip(t))
     let tripList = document.querySelector('#trip-list')
+
+
+    // ///// USE FOR SORTING BY DATE
+    // function compare(a,b) {
+    //   if (a.start_date < b.start_date)
+    //     return -1;
+    //   if (a.start_date > b.start_date)
+    //     return 1;
+    //   return 0;
+    // }
+
     Trip.all.forEach(t => tripList.innerHTML += `
+      <div id=${t.id} class="trip">
       <h3>${t.name}</h3>
-      <p>Location: ${Location.findById(t.location_id)}</p>
-      <p>Dates: ${t.start_date} - ${t.end_date}</p>
+      <p>Location: ${Location.findById(t.location_id).name}</p>
+      <p>Dates: ${Trip.formatDate(t.start_date)} - ${Trip.formatDate(t.end_date)}</p>
+      </div>
       `)
-  }
+  };
 
   static getUsers(){
     fetch("http://localhost:3000/api/users")
