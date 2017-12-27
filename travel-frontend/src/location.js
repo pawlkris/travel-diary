@@ -34,10 +34,9 @@ Location.addToDb = function(name) {
 
 Location.getIdOrCreateByName = function(name) {
   if (Location.all.find(x => x.name === name)) {
-    return Location.all.find(x => x.name === name).id
+    return Promise.resolve(Location.all.find(x => x.name === name));
   } else{
-    Location.addToDb(name);
-    return setTimeout(Location.all.find(x => x.name === name).id, 1000);
+    return Location.addToDb(name);
   }
 
 };

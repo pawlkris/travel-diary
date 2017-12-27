@@ -13,10 +13,6 @@ body {
   color: #111111;
 }
 
-.hover:hover {
-  background-color: #39CCCC;
-}
-
 .trip-list {
   border: 5px solid #015249;
   background-color: #57BC90;

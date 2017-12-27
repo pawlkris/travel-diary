@@ -14,31 +14,35 @@ class Trip {
     Trip.all.push(this)
   };
 
-  // static newTripDb(note){
-  //
-  //   fetch(`http://localhost:3000/api/v1/notes`, {
-  //     method: 'POST',
-  //     headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-  //     body: JSON.stringify(note)
-  //   })
-  //     .then(resp => resp.json()).then(trip => {let newTrip = new Trip(trip)
-  //       container.innerHTML += `
-  //         <div id="${newNote.id}">
-  //         <h1>${newNote.title}</h1>
-  //         <p>${newNote.body}</p>
-  //         <button id="delete${newNote.id}">Delete Note</button>
-  //         </div>
-  //       `
-  //       document.getElementById('title_input').value = ""
-  //       document.getElementById('body_input').value = ""
-  //       document.getElementById('edit').dataset.id = "new"
-  //     })
+  static newTripDb(name, description, user_id, location_id, start_date, end_date){
+    return fetch(`http://localhost:3000/api/trips`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      body: JSON.stringify({"name":name, "description":description, "user_id":user_id, "location_id":location_id, "start_date":start_date, "end_date":end_date})
+    })
+      .then(resp => resp.json())
+      .then(trip => new Trip(trip))
+      // .then(trip => {let newTrip = new Trip(trip)
+      // });
 
-  static formatDate(date) {
+  };
+
+
+
+  static formatDate(date){
     date = new Date(date);
-    return `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`
-    ;
-  }
+    return `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
+  };
+
+  addHTML(){
+    return `
+      <div id=${this.id} class="trip">
+      <h3>${this.name}</h3>
+      <p>Location: ${Location.findById(this.location_id).name}</p>
+      <p>Dates: ${Trip.formatDate(this.start_date)} - ${Trip.formatDate(this.end_date)}</p>
+      </div>
+      `
+    };
 
   updateShow(){
     document.getElementById("trip-name").innerText = this.name

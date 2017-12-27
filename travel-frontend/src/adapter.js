@@ -20,13 +20,7 @@ class Adapter {
     //   return 0;
     // }
 
-    Trip.all.forEach(t => tripList.innerHTML += `
-      <div id=${t.id} class="trip">
-      <h3>${t.name}</h3>
-      <p>Location: ${Location.findById(t.location_id).name}</p>
-      <p>Dates: ${Trip.formatDate(t.start_date)} - ${Trip.formatDate(t.end_date)}</p>
-      </div>
-      `)
+    Trip.all.forEach(t => tripList.innerHTML += t.addHTML())
   };
 
   static getUsers(){
