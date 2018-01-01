@@ -6,6 +6,11 @@ class Location {
     Location.all.push(this)
   };
 
+  static getLastId() {
+    debugger
+    return Location.all.splice(-1)[0].id
+  }
+
 };
 
 Location.all = []
@@ -34,9 +39,15 @@ Location.addToDb = function(name) {
 
 Location.getIdOrCreateByName = function(name) {
   if (Location.all.find(x => x.name === name)) {
-    return Promise.resolve(Location.all.find(x => x.name === name));
+    return Location.all.find(x => x.name === name);
   } else{
-    return Location.addToDb(name);
+    Location.addToDb(name);
+    debugger
+    return Location.getLastId();
   }
+
+// Location.getLastId = function(){
+//   return Location.all.splice(-1)[0].id
+// };
 
 };

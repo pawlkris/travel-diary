@@ -3,18 +3,26 @@ testTrip = {}
 
 class App {
 
-static resetButtonColors() {
-      Array.from(document.getElementsByClassName("trip")).forEach(x => x.style.backgroundColor = "#57BC90")
-      Array.from(document.getElementsByClassName("nav-button")).forEach(x => x.style.backgroundColor = "#57BC90")
-    };
+  static resetButtonColors() {
+    Array.from(document.getElementsByClassName("trip")).forEach(x => x.style.backgroundColor = "#57BC90")
+    Array.from(document.getElementsByClassName("nav-button")).forEach(x => x.style.backgroundColor = "#57BC90")
+  };
 
-static hide(section) {
-  section.style.display = "none";
-};
+  static hide(section) {
+    section.style.display = "none";
+  };
 
-static show(section) {
-  section.style.display = "block";
-};
+  static show(section) {
+    section.style.display = "block";
+  };
+
+  static resetForm() {
+    document.getElementById("name").value = "";
+    document.getElementById("description").value = "";
+    document.getElementById("location").value = "";
+    document.getElementById("start_date").value = "";
+    document.getElementById("end_date").value = "";
+  };
 
 
 };
@@ -24,15 +32,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
   Adapter.getUsers();
   Adapter.getTrips(user);
   Adapter.getLocations();
+
+  // click listeners elements that change what displays in main show area
   const tripList = document.getElementById("trip-list");
   const newBtn = document.getElementById("new-btn");
   const homeBtn = document.getElementById("home-btn");
+  const editBtn = document.getElementById("edit");
 
+  // display area options
   const tripDisplay = document.getElementById("trip-display");
   const formDisplay = document.getElementById("form-display");
   const homeDisplay = document.getElementById("home-display");
 
-  const submitBtn = document.getElementById("submit")
+  const submitBtn = document.getElementById("submit");
 
 
 
@@ -47,8 +59,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
     App.resetButtonColors();
     document.getElementById(eventId).style.backgroundColor = "#0074D9";
 
-    let showTrip = Trip.getById(eventId).id;
+    let showTrip = Trip.getById(eventId);
     showTrip.updateShow();
+  });
+
+  editBtn.addEventListener("click", function(event) {
+    App.show(formDisplay);
+    App.hide(homeDisplay);
+    App.hide(tripDisplay);
+
+
+    let editTrip = Trip.getById(parseInt(editBtn.dataset.id));
+
+
+    document.getElementById("name").value = editTrip.name;
+    document.getElementById("description").value = editTrip.description;
+    document.getElementById("location").value = Location.nameById(editTrip.location_id);
+    document.getElementById("start_date").value = editTrip.start_date;
+    document.getElementById("end_date").value = editTrip.end_date;
+
   });
 
   newBtn.addEventListener("click", function(event) {
@@ -57,39 +86,41 @@ document.addEventListener("DOMContentLoaded", function(event) {
     App.hide(tripDisplay);
     App.resetButtonColors();
     newBtn.style.backgroundColor = "#0074D9";
+    App.resetForm();
+
+
   });
 
   submitBtn.addEventListener("click", function(event) {
+    debugger
     let name = document.getElementById("name").value;
     let description = document.getElementById("description").value;
     let user_id = user;
-
-    let location_id = Location.getIdOrCreateByName(document.getElementById("location").value)
-      .then(x => location_id = x.id);
+    let location_id = Location.getIdOrCreateByName(document.getElementById("location").value).id
     let start_date = document.getElementById("start_date").value;
     let end_date = document.getElementById("end_date").value;
 
     debugger
-
-    Trip.newTripDb(name, description, user_id, location_id, start_date, end_date);
-
-    let eventId = Trip.all[Trip.all.length-1]
-
-    debugger
-
-    App.hide(formDisplay);
-    App.hide(homeDisplay);
-    App.show(tripDisplay);
-
-    debugger
-
-    App.resetButtonColors();
-    document.getElementById(eventId).style.backgroundColor = "#0074D9";
-
-    let showTrip = Trip.getById(eventId);
-    showTrip.updateShow();
-
-    debugger
+    // 
+    // Trip.newTripDb(name, description, user_id, location_id, start_date, end_date);
+    //
+    // let eventId = Trip.all[Trip.all.length-1].id
+    //
+    // debugger
+    //
+    // App.hide(formDisplay);
+    // App.hide(homeDisplay);
+    // App.show(tripDisplay);
+    //
+    // debugger
+    //
+    // App.resetButtonColors();
+    // document.getElementById(eventId).style.backgroundColor = "#0074D9";
+    //
+    // let showTrip = Trip.getById(eventId);
+    // showTrip.updateShow();
+    //
+    // debugger
 
   });
 

@@ -28,7 +28,7 @@ end
 
 private
 def trip_params
-  params.permit(:name, :description, :location_id, :user_id, :start_date, :end_date, :people_involved, :photos, :events)
+  params.permit(:name, :description, :city, :state, :country, :user_id, :start_date, :end_date, :people_involved, :photos, :events, :work, :leisure, :beach, :family, :friends)
 end
 
 def set_trip

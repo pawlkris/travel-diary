@@ -48,6 +48,7 @@ class Trip {
     document.getElementById("trip-name").innerText = this.name
     document.getElementById("trip-dates").innerText = `${Trip.formatDate(this.start_date)}-${Trip.formatDate(this.end_date)}`
     document.getElementById("trip-location").innerText = Location.nameById(this.location_id)
+    document.getElementById("edit").dataset.id = this.id
     document.getElementById("trip-map").src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyAv6zJzukQ3qrRUXJ1fGrHwd-6jq0hb-u0&q=${Location.nameForUrl(this.location_id)}`
     document.getElementById("trip-description").innerText = `Description: ${this.description}`
     // document.getElementById("people-involved").innerText = `People involved: ${this.people_involved}`
