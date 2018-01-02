@@ -35,20 +35,10 @@ class Adapter {
   //   let userList = document.querySelector('#dropdown-user')
   //   User.all.forEach(t => userList.innerHTML += `
   //     <h3>${t.name}</h3>
-  //     <p>Location: ${Location.findById(t.location_id)}</p>
   //     <p>Dates: ${t.start_date} - ${t.end_date}</p>
   //     `)
   // }
 
-  static getLocations(){
-    fetch("http://localhost:3000/api/locations")
-    .then(res => res.json())
-    .then(json => this.createLocations(json))
-  };
-
-  static createLocations(json){
-    json.forEach(t => new Location(t))
-  }
 
 
 };

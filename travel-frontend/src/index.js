@@ -19,9 +19,17 @@ class App {
   static resetForm() {
     document.getElementById("name").value = "";
     document.getElementById("description").value = "";
-    document.getElementById("location").value = "";
+    document.getElementById("city").value = "";
+    document.getElementById("state").value = "";
+    document.getElementById("country").value = "";
     document.getElementById("start_date").value = "";
     document.getElementById("end_date").value = "";
+    document.getElementById("work").checked = false;
+    document.getElementById("leisure").checked = false;
+    document.getElementById("beach").checked = false;
+    document.getElementById("family").checked = false;
+    document.getElementById("friends").checked = false;
+
   };
 
 
@@ -31,7 +39,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
   let user = 1;
   Adapter.getUsers();
   Adapter.getTrips(user);
-  Adapter.getLocations();
 
   // click listeners elements that change what displays in main show area
   const tripList = document.getElementById("trip-list");
@@ -45,9 +52,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
   const homeDisplay = document.getElementById("home-display");
 
   const submitBtn = document.getElementById("submit");
+  submitBtn.dataset.cmd = "";
+  submitBtn.dataset.id = "";
 
 
-
+  App.hide(formDisplay);
+  App.hide(homeDisplay);
+  App.hide(tripDisplay);
+  App.resetButtonColors();
 
   tripList.addEventListener("click", function(event) {
     App.hide(formDisplay);
@@ -67,6 +79,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     App.show(formDisplay);
     App.hide(homeDisplay);
     App.hide(tripDisplay);
+    submitBtn.dataset.cmd = "PATCH";
+    submitBtn.dataset.id = editBtn.dataset.id;
 
 
     let editTrip = Trip.getById(parseInt(editBtn.dataset.id));
@@ -74,9 +88,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     document.getElementById("name").value = editTrip.name;
     document.getElementById("description").value = editTrip.description;
-    document.getElementById("location").value = Location.nameById(editTrip.location_id);
+    document.getElementById("city").value = editTrip.city;
+    document.getElementById("state").value = editTrip.state;
+    document.getElementById("country").value = editTrip.country;
     document.getElementById("start_date").value = editTrip.start_date;
     document.getElementById("end_date").value = editTrip.end_date;
+    document.getElementById("work").checked = editTrip.work;
+    document.getElementById("leisure").checked = editTrip.leisure;
+    document.getElementById("beach").checked = editTrip.beach;
+    document.getElementById("family").checked = editTrip.family;
+    document.getElementById("friends").checked = editTrip.friends;
+
+
 
   });
 
@@ -87,26 +110,33 @@ document.addEventListener("DOMContentLoaded", function(event) {
     App.resetButtonColors();
     newBtn.style.backgroundColor = "#0074D9";
     App.resetForm();
+    submitBtn.dataset.cmd = "POST"
 
 
   });
 
   submitBtn.addEventListener("click", function(event) {
-    debugger
-    let name = document.getElementById("name").value;
-    let description = document.getElementById("description").value;
-    let user_id = user;
-    let location_id = Location.getIdOrCreateByName(document.getElementById("location").value).id
-    let start_date = document.getElementById("start_date").value;
-    let end_date = document.getElementById("end_date").value;
+    let data = {}
+    data["id"] = submitBtn.dataset.id
+    data["name"] = document.getElementById("name").value;
+    data["description"] = document.getElementById("description").value;
+    data["user_id"] = user;
+    data["city"] = document.getElementById("city").value
+    data["state"] = document.getElementById("state").value
+    data["country"] = document.getElementById("country").value
+    data["start_date"] = document.getElementById("start_date").value;
+    data["end_date"] = document.getElementById("end_date").value;
+    data["work"] = document.getElementById("work").checked;
+    data["leisure"] = document.getElementById("leisure").checked;
+    data["beach"] = document.getElementById("beach").checked;
+    data["family"] = document.getElementById("family").checked;
+    data["friends"] = document.getElementById("friends").checked;
+    if (submitBtn.dataset.cmd === "POST") {
+      Trip.newTripDb(data);
+    } else {
+      Trip.update(data);
+    }
 
-    debugger
-    // 
-    // Trip.newTripDb(name, description, user_id, location_id, start_date, end_date);
-    //
-    // let eventId = Trip.all[Trip.all.length-1].id
-    //
-    // debugger
     //
     // App.hide(formDisplay);
     // App.hide(homeDisplay);
@@ -131,7 +161,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
     App.resetButtonColors();
     homeBtn.style.backgroundColor = "#0074D9";
 
-
+    document.getElementById("user-greeting").innerText = `Hello ${User.getById(user).name}!`;
+    let userTotal = Trip.getByUser(user).length;
+    document.getElementById("total-trips").innerText = `You've been on ${userTotal} trips.`;
+    document.getElementById("work-trips").innerText = Trip.getByWork(user).length
+    document.getElementById("leisure-trips").innerText = Trip.getByLeisure(user).length
+    document.getElementById("beach-trips").innerText = Trip.getByBeach(user).length
+    document.getElementById("family-trips").innerText = Trip.getByFamily(user).length
+    document.getElementById("friends-trips").innerText = Trip.getByFriends(user).length
 
   });
 

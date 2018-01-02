@@ -11,11 +11,11 @@
 
 
     <link rel="stylesheet" href="css/application.css" type="text/css">
-    <script src="src/index.js"></script>
-    <script src="src/adapter.js"></script>
-    <script src="src/trip.js"></script>
-    <script src="src/location.js"></script>
     <script src="src/user.js"></script>
+    <script src="src/trip.js"></script>
+    <script src="src/adapter.js"></script>
+
+    <script src="src/index.js"></script>
     <title>Travel Diary</title>
   </head>
   <body>
@@ -63,8 +63,16 @@
                 <input type="text" class="form-control" id="name">
               </div>
               <div class="form-group">
-                <label>Location:</label>
-                <input type="text" class="form-control" id="location" placeholder="City, State Abbr or Country">
+                <label>City:</label>
+                <input type="text" class="form-control" id="city">
+              </div>
+              <div class="form-group">
+                <label>State:</label>
+                <input type="text" class="form-control" id="state" placeholder="2 Letter Abbreviation">
+              </div>
+              <div class="form-group">
+                <label>Country:</label>
+                <input type="text" class="form-control" id="country">
               </div>
               <div class="form-group">
                    <label>Start Date: </label>
@@ -76,6 +84,27 @@
                 <label for="exampleFormControlTextarea1">Description</label>
                 <textarea class="form-control" id="description" rows="3"></textarea>
               </div>
+              <p>
+                Trip Type Tags
+              </p>
+              <label class="checkbox-inline">
+                <input id="work" type="checkbox" value="">Work
+              </label>
+              <label class="checkbox-inline">
+                <input id="leisure" type="checkbox" value="">Leisure
+              </label>
+              <br/>
+              <label class="checkbox-inline">
+                <input id="beach" type="checkbox" value="">Beach
+              </label>
+              <label class="checkbox-inline">
+                <input id="family" type="checkbox" value="">Family
+              </label>
+              <label class="checkbox-inline">
+                <input id="friends" type="checkbox" value="">Friends
+              </label>
+              <br/>
+              <br />
               <button id="submit" class="btn btn-default">Submit</button>
             </form>
 
@@ -86,19 +115,52 @@
             <!--Google Maps API key AIzaSyAv6zJzukQ3qrRUXJ1fGrHwd-6jq0hb-u0
             -->
             <button id="edit">Edit</button>
+            <br />
+            <br />
             <iframe id="trip-map" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAv6zJzukQ3qrRUXJ1fGrHwd-6jq0hb-u0&q=New+York+NY" width="465" height="380" frameborder="0" style="border:0" allowfullscreen></iframe>
             <p id="trip-description"></p>
             <!-- <p id="people-involved"></p>       opting to drop these for now
             <p id="events"></p> -->
+            <p id="trip-tags"></p>
           </div>
 
           <div id="home-display">
-            <p>
-              Total trips, number of days travelled in Year, # of locations travelled
-            </p>
+            <h2 id="user-greeting"></h2>
+            <br />
+            <h3 id="total-trips"></h3>
+            <br />
+            <h4 style="text-decoration:underline">Trip Tag Stats</h4>
+            <table class="table table-bordered">
+               <thead>
+                 <tr>
+                   <th>Trip Tag</th>
+                   <th>Number of Trips</th>
+                 </tr>
+               </thead>
+               <tbody>
+                 <tr>
+                   <td>Work</td>
+                   <td id="work-trips"></td>
+                 </tr>
+                 <tr>
+                   <td>Leisure</td>
+                   <td id="leisure-trips"></td>
+                 </tr>
+                 <tr>
+                   <td>Beach</td>
+                   <td id="beach-trips"></td>
+                 </tr>
+                 <tr>
+                   <td>Family</td>
+                   <td id="family-trips"></td>
+                 </tr>
+                 <tr>
+                   <td>Friends</td>
+                   <td id="friends-trips"></td>
+                 </tr>
+               </tbody>
+            </table>
           </div>
-
-
         </div>
       </div>
     </div>
