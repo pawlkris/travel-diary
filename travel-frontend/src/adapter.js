@@ -1,15 +1,15 @@
+const API_URL = "https://travel-backend-js.herokuapp.com/api";
 
 class Adapter {
-  static getTrips(user){
-    fetch(`http://localhost:3000/api/users/${user}`)
-    .then(res => res.json())
-    .then(json => this.createAndDisplayTrips(json))
-  };
+  static getTrips(user) {
+    fetch(`${API_URL}/users/${user}`)
+      .then(res => res.json())
+      .then(json => this.createAndDisplayTrips(json));
+  }
 
-  static createAndDisplayTrips(json){
-    json.trips.forEach(t => new Trip(t))
-    let tripList = document.querySelector('#trip-list')
-
+  static createAndDisplayTrips(json) {
+    json.trips.forEach(t => new Trip(t));
+    let tripList = document.querySelector("#trip-list");
 
     // ///// USE FOR SORTING BY DATE
     // function compare(a,b) {
@@ -20,17 +20,17 @@ class Adapter {
     //   return 0;
     // }
 
-    Trip.all.forEach(t => tripList.innerHTML += t.addHTML())
-  };
+    Trip.all.forEach(t => (tripList.innerHTML += t.addHTML()));
+  }
 
-  static getUsers(){
-    fetch("http://localhost:3000/api/users")
-    .then(res => res.json())
-    .then(json => this.createUsers(json))
-  };
+  static getUsers() {
+    fetch(`${API_URL}/users`)
+      .then(res => res.json())
+      .then(json => this.createUsers(json));
+  }
 
-  static createUsers(json){
-    json.forEach(t => new User(t))
+  static createUsers(json) {
+    json.forEach(t => new User(t));
   }
   //   let userList = document.querySelector('#dropdown-user')
   //   User.all.forEach(t => userList.innerHTML += `
@@ -38,7 +38,4 @@ class Adapter {
   //     <p>Dates: ${t.start_date} - ${t.end_date}</p>
   //     `)
   // }
-
-
-
-};
+}
